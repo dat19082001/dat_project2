@@ -8,6 +8,7 @@
 #include "Invoice.h"
 #include <ctime>
 #include <iomanip>
+#include <limits>
 
 using namespace std;
 
@@ -67,7 +68,7 @@ int main()
                     cout << "Product not found.\n";
                 }
             }
-            else if (searchChoice == 2) 
+            else if (searchChoice == 2)
             {
                 string author;
                 cout << "Enter author name to search: ";
@@ -110,8 +111,22 @@ int main()
             else if (searchChoice == 4) // Tìm kiếm theo năm sản xuất
             {
                 int year;
-                cout << "Enter production year to search: ";
-                cin >> year;
+                do
+                {
+                    cout << "Enter production year to search:  (4 digits, not in the future): ";
+                    if (!(cin >> year))
+                    {
+                        cout << "Invalid input. Please enter a number.\n";
+                        cin.clear();                                         // xóa trạng thái lỗi
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // xóa dòng rác
+                        continue;
+                    }
+                    if (!isValidYear(year))
+                    {
+                        cout << "Invalid year. Year must be a 4-digit number and not in the future.\n";
+                    }
+                } while (!isValidYear(year));
+                
                 vector<Product *> result = searchProductByYear(products, year);
                 if (!result.empty())
                 {
@@ -131,7 +146,7 @@ int main()
                 cout << "Invalid choice. Please try again.\n";
             }
         }
-        else if (choice==4)
+        else if (choice == 4)
         {
             editProductById(products);
         }
@@ -155,6 +170,3 @@ int main()
 
     return 0;
 }
-
-
-

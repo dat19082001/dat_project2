@@ -58,6 +58,7 @@ void updateProductFile(const vector<Product *> &products);
 void displayProducts(const vector<Product *> &products);
 void editProductById(vector<Product *> &products);
 void deleteProductById(vector<Product*> &products, const string &id);
+bool isValidYear(int year);
 
 
 

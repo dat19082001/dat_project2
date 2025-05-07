@@ -12,7 +12,7 @@ using namespace std;
 
 Product::Product() : id(""), title(""), author(""), year(0), publisher(""), importPrice(0), salePrice(0), quantity(0), quantitySold(0) {}
 
-Product::Product(string id, string title, string author, int year, string publisher, double importPrice, double salePrice, int quantity, int quatitySold)
+Product::Product(string id, string title, string author, int year, string publisher, double importPrice, double salePrice, int quantity, int quantitySold)
     : id(id), title(title), author(author), year(year), publisher(publisher), importPrice(importPrice), salePrice(salePrice), quantity(quantity), quantitySold(quantitySold) {}
 
 Product::~Product() {}
@@ -238,7 +238,13 @@ void addNewProduct(vector<Product *> &products)
     do
     {
         cout << "Enter year of release (4 digits, not in the future): ";
-        cin >> year;
+        if (!(cin >> year))
+        {
+            cout << "Invalid input. Please enter a number.\n";
+            cin.clear();                                         // xóa trạng thái lỗi
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // xóa dòng rác
+            continue;
+        }
         if (!isValidYear(year))
         {
             cout << "Invalid year. Year must be a 4-digit number and not in the future.\n";
